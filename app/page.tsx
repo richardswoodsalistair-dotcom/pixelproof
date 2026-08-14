@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type IconName = "arrow" | "check" | "code" | "download" | "eye" | "filter" | "history" | "layers" | "lock" | "search" | "spark" | "target" | "zap";
 
@@ -78,8 +78,37 @@ const faqs = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  return <main>
-    <header className="site-header"><a className="brand-link" href="#top"><Logo/></a><nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Primary navigation"><a href="#workflow" onClick={() => setMenuOpen(false)}>How it works</a><a href="#features" onClick={() => setMenuOpen(false)}>Features</a><a href="#outcomes" onClick={() => setMenuOpen(false)}>Benefits</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a></nav><a className="header-cta" href="#demo">See it in action <Icon name="arrow" size={15}/></a><button className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} type="button"><span/><span/></button></header>
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const handleSmoothScroll = (event: globalThis.MouseEvent) => {
+      const target = event.target as Element | null;
+      const anchor = target?.closest<HTMLAnchorElement>('a[href^="#"]');
+      const href = anchor?.getAttribute("href");
+      if (!href || href === "#") return;
+
+      const section = document.querySelector<HTMLElement>(href);
+      if (!section) return;
+
+      event.preventDefault();
+      section.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
+      });
+      window.history.replaceState(null, "", href);
+    };
+
+    document.addEventListener("click", handleSmoothScroll);
+    return () => document.removeEventListener("click", handleSmoothScroll);
+  }, []);
+
+  return <>
+    {showLoader && <div className="site-loader" role="status" aria-live="polite" aria-label="Loading PixelProof" onAnimationEnd={event => {
+      if (event.currentTarget === event.target) setShowLoader(false);
+    }}><div className="loader-brand"><Logo/><span>Preparing your visual QA workspace</span><i/></div></div>}
+    <main>
+    <header className="site-header"><a className="brand-link" href="#top"><Logo/></a><nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Primary navigation"><a href="#outcomes" onClick={() => setMenuOpen(false)}>Benefits</a><a href="#workflow" onClick={() => setMenuOpen(false)}>How it works</a><a href="#features" onClick={() => setMenuOpen(false)}>Features</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQs</a></nav><a className="header-cta" href="#demo">See it in action <Icon name="arrow" size={15}/></a><button className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} type="button"><span/><span/></button></header>
     <section className="hero section-shell" id="top"><div className="hero-glow glow-one"/><div className="hero-glow glow-two"/><div className="hero-copy"><div className="eyebrow"><span/> Figma-to-production visual QA</div><h1>Ship every page closer to the <em>approved design.</em></h1><p>PixelProof compares Figma with your live build, catches visual drift, and turns every mismatch into clear, actionable evidence—before the client review.</p><div className="hero-actions"><a className="button primary" href="#demo">Explore the workflow <Icon name="arrow"/></a><a className="button secondary" href="#features"><Icon name="layers"/> See every feature</a></div><div className="hero-proof"><span><Icon name="check" size={15}/> No manual pixel hunt</span><span><Icon name="check" size={15}/> Clear severity ranking</span><span><Icon name="check" size={15}/> Shareable reports</span></div></div><ProductMockup/></section>
     <section className="metrics-strip section-shell" aria-label="Example audit outputs"><div className="metric-intro"><span>Example audit</span><strong>From uncertainty to a measurable QA baseline.</strong></div><div className="metric"><strong>71%</strong><span>Design match</span></div><div className="metric"><strong>101</strong><span>Issues surfaced</span></div><div className="metric"><strong>20</strong><span>Critical failures</span></div><div className="metric"><strong>29.2s</strong><span>Audit completed</span></div></section>
     <section className="problem-section section-shell" id="outcomes"><div className="section-heading split-heading"><div><span className="section-label">The hidden cost of visual drift</span><h2>Client review should not be your first QA pass.</h2></div><p>Small implementation differences create large delivery costs: repeated feedback, slower approvals, and avoidable tension between design and development.</p></div><div className="problem-grid"><article><span className="problem-number">01</span><h3>Manual review is slow</h3><p>Side-by-side checking turns skilled designers and developers into pixel detectives.</p><div className="problem-tag">Hours of repetitive work</div></article><article><span className="problem-number">02</span><h3>Feedback arrives too late</h3><p>Layout and typography problems surface during stakeholder review instead of development.</p><div className="problem-tag">More revision cycles</div></article><article className="solution-card"><span className="problem-number">03</span><h3>PixelProof creates alignment</h3><p>One visual workspace gives every team the same prioritized, measurable source of truth.</p><div className="problem-tag"><Icon name="spark" size={15}/> Faster, calmer handoff</div></article></div></section>
@@ -89,8 +118,9 @@ export default function Home() {
     <section className="value-section" id="results"><div className="section-shell value-grid"><div className="value-copy"><span className="section-label">Business value, not more noise</span><h2>Less review friction.<br/>More delivery confidence.</h2><p>PixelProof translates visual quality into a workflow every stakeholder can understand—from a developer fixing spacing to a client approving the final build.</p><a className="text-link" href="#use-cases">See who it helps <Icon name="arrow"/></a></div><div className="value-list"><article><span><Icon name="zap"/></span><div><h3>Shorten QA cycles</h3><p>Replace repetitive inspection with an automated, prioritized review starting point.</p></div></article><article><span><Icon name="layers"/></span><div><h3>Align design and development</h3><p>Discuss visible evidence and exact specifications instead of subjective impressions.</p></div></article><article><span><Icon name="eye"/></span><div><h3>Protect the client experience</h3><p>Catch inconsistencies internally before they become feedback in a presentation.</p></div></article><article><span><Icon name="history"/></span><div><h3>Prove improvement</h3><p>Rerun audits and show measurable progress after each round of fixes.</p></div></article></div></div></section>
     <section className="audience-section section-shell" id="use-cases"><div className="section-heading split-heading"><div><span className="section-label">One quality language</span><h2>Designed for every team responsible for the final pixel.</h2></div><p>Whether quality is your craft, your code, or your client promise, PixelProof makes it visible and actionable.</p></div><div className="audience-grid"><article><span>DESIGN</span><h3>UI/UX teams</h3><p>Protect the intent of approved designs without reviewing every screen by hand.</p><b>Design integrity</b></article><article><span>BUILD</span><h3>Frontend teams</h3><p>Find the exact components and specifications behind visual discrepancies.</p><b>Faster fixes</b></article><article><span>VERIFY</span><h3>QA teams</h3><p>Add measurable visual coverage to functional testing and release reviews.</p><b>Clear prioritization</b></article><article><span>DELIVER</span><h3>Agencies</h3><p>Reduce client revision rounds and present a more confident final delivery.</p><b>Stronger handoffs</b></article></div></section>
     <section className="trust-section section-shell"><div className="trust-icon"><Icon name="lock" size={28}/></div><div><span className="section-label">Built for real delivery environments</span><h2>Review the page your client will actually see.</h2><p>Use live production URLs or protected staging environments. Tokens remain masked in the interface, and authentication is requested only when the target page requires it.</p></div><div className="trust-points"><span><Icon name="check"/> Masked token input</span><span><Icon name="check"/> Optional protected-page access</span><span><Icon name="check"/> Clear source URLs in every audit</span></div></section>
-    <section className="faq-section section-shell" id="faq"><div className="section-heading centered"><span className="section-label">Frequently asked questions</span><h2>The practical details.</h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></section>
+    <section className="faq-section section-shell" id="faq"><div className="section-heading centered"><span className="section-label">Frequently asked questions</span><h2>The practical details.</h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <details key={question} open={openFaq === index}><summary onClick={event => { event.preventDefault(); setOpenFaq(openFaq === index ? null : index); }} aria-expanded={openFaq === index}>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></section>
     <section className="final-cta section-shell"><div className="cta-glow"/><Logo compact/><span className="section-label">The final pixel deserves a final check</span><h2>Stop finding design problems<br/>during client review.</h2><p>Give design, development, and QA one measurable view of implementation quality.</p><a className="button primary" href="#top">See PixelProof in action <Icon name="arrow"/></a></section>
-    <footer className="site-footer section-shell"><div><Logo/><p>Design QA, without guesswork.</p></div><div className="footer-links"><a href="#workflow">How it works</a><a href="#features">Features</a><a href="#outcomes">Benefits</a><a href="#faq">FAQ</a></div><p className="copyright">© 2026 PixelProof. Product concept.</p></footer>
-  </main>;
+    <footer className="site-footer section-shell"><div><Logo/><p>Design QA, without guesswork.</p></div><div className="footer-links"><a href="#outcomes">Benefits</a><a href="#workflow">How it works</a><a href="#features">Features</a><a href="#faq">FAQs</a></div><p className="copyright">© 2026 PixelProof by Compton</p></footer>
+  </main>
+  </>;
 }
