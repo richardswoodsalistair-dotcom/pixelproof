@@ -6,7 +6,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PixelProof — Visual QA for Design-to-Code",
+  title: "Design to QA — Visual QA for Design-to-Code",
   description: "Compare Figma designs with live production pages, uncover visual drift, and turn every mismatch into actionable QA evidence.",
   other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
