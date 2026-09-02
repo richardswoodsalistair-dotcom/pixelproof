@@ -27,7 +27,7 @@ button { color: inherit; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .section-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
 
-.site-loader { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, #f5a623 0, #222222 42%, #f4f4f4 75%); animation: siteLoaderExit 1.15s cubic-bezier(.65,0,.35,1) forwards; }
+.site-loader { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, #f5a623 0%, #222222 55%, #1a1a1a 100%); animation: siteLoaderExit 1.15s cubic-bezier(.65,0,.35,1) forwards; }
 .loader-brand { display: grid; justify-items: center; gap: 17px; color: #868ba0; font-family: var(--font-geist-mono), monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .loader-brand .brand-lockup { transform: scale(1.18); }
 .loader-brand i { position: relative; width: 180px; height: 2px; overflow: hidden; border-radius: 99px; background: rgba(245, 166, 35, .14); }
