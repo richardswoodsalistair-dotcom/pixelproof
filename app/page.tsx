@@ -24,7 +24,7 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
 }
 
 function Logo({ compact = false }: { compact?: boolean }) {
-  return <span className="brand-lockup" aria-label="Design to QA"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><rect x="1" y="1" width="34" height="34" rx="10" fill="url(#markGradient)"/><path d="M8.5 18h4l2.3-7 4.6 14 2.4-7h5.7" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><path d="m25.4 10.2 1.3 1.3 2.8-3" stroke="#C9FFEA" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="markGradient" x1="4" y1="3" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stopColor="#6E6CFF"/><stop offset="1" stopColor="#A83CF6"/></linearGradient></defs></svg></span>{!compact && <span className="brand-name">Design <span>to QA</span></span>}</span>;
+  return <span className="brand-lockup" aria-label="Design to QA"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><rect x="1" y="1" width="34" height="34" rx="10" fill="url(#markGradient)"/><path d="M8.5 18h4l2.3-7 4.6 14 2.4-7h5.7" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><path d="m25.4 10.2 1.3 1.3 2.8-3" stroke="#C9FFEA" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="markGradient" x1="4" y1="3" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stopColor="#f0b95e"/><stop offset="1" stopColor="#f0b95e"/></linearGradient></defs></svg></span>{!compact && <span className="brand-name">Design <span>to QA</span></span>}</span>;
 }
 
 const issues = [
