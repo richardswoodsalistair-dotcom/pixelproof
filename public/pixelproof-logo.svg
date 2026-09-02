@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 206 44" fill="none"><defs><linearGradient id="g" x1="4" y1="3" x2="38" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#6E6CFF"/><stop offset="1" stop-color="#A83CF6"/></linearGradient></defs><rect x="1" y="1" width="42" height="42" rx="12" fill="url(#g)"/><path d="M10 22h5l2.8-8.5 5.6 17 3-8.5H34" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="m31.2 12.5 1.5 1.5 3.3-3.5" stroke="#C9FFEA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="55" y="30" fill="#F7F7FB" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" letter-spacing="-.8">Pixel<tspan fill="#A9A7FF">Proof</tspan></text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Rounded square background -->
+  <rect x="24" y="24" width="80" height="80" rx="20" ry="20" fill="#efc47c"/>
+
+  <!-- Exact Lucide Activity icon -->
+  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" 
+        fill="none" stroke="#1c1c1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+        transform="translate(40, 40) scale(2)" />
+</svg>
