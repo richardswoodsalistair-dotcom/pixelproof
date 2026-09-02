@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type IconName = "arrow" | "check" | "code" | "download" | "eye" | "filter" | "history" | "layers" | "lock" | "search" | "spark" | "target" | "zap";
+type IconName = "arrow" | "check" | "code" | "download" | "eye" | "filter" | "history" | "layers" | "lock" | "search" | "spark" | "target" | "zap" | "sun" | "moon";
 
 function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, React.ReactNode> = {
@@ -19,6 +19,8 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
     spark: <><path d="m12 3 1.4 4.6L18 9l-4.6 1.4L12 15l-1.4-4.6L6 9l4.6-1.4L12 3Z"/><path d="m19 15 .7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7L19 15Z"/></>,
     target: <><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3V1M21 12h2M12 21v2M3 12H1"/></>,
     zap: <path d="m13 2-9 12h7l-1 8 9-12h-7l1-8Z"/>,
+    sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></>,
+    moon: <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>,
   };
   return <svg aria-hidden="true" className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
@@ -80,6 +82,31 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [showLoader, setShowLoader] = useState(true);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Initialize theme from localStorage or system preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    } else if (prefersDark) {
+      setTheme("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
 
   useEffect(() => {
     const handleSmoothScroll = (event: globalThis.MouseEvent) => {
@@ -108,7 +135,25 @@ export default function Home() {
       if (event.currentTarget === event.target) setShowLoader(false);
     }}><div className="loader-brand"><Logo/><span>Preparing your visual QA workspace</span><i/></div></div>}
     <main>
-    <header className="site-header"><a className="brand-link" href="https://design-qa-ai.developmentpreviews.com/" aria-label="Open Design to QA"><Logo/></a><nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Primary navigation"><a href="#outcomes" onClick={() => setMenuOpen(false)}>Benefits</a><a href="#workflow" onClick={() => setMenuOpen(false)}>How it works</a><a href="#features" onClick={() => setMenuOpen(false)}>Features</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQs</a></nav><a className="header-cta" href="https://design-qa-ai.developmentpreviews.com/">See it in action <Icon name="arrow" size={15}/></a><button className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} type="button"><span/><span/></button></header>
+    <header className="site-header">
+      <a className="brand-link" href="https://design-qa-ai.developmentpreviews.com/" aria-label="Open Design to QA"><Logo/></a>
+      <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Primary navigation">
+        <a href="#outcomes" onClick={() => setMenuOpen(false)}>Benefits</a>
+        <a href="#workflow" onClick={() => setMenuOpen(false)}>How it works</a>
+        <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+        <a href="#faq" onClick={() => setMenuOpen(false)}>FAQs</a>
+      </nav>
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme} 
+        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        <Icon name={theme === "dark" ? "sun" : "moon"} size={18} />
+      </button>
+      <a className="header-cta" href="https://design-qa-ai.developmentpreviews.com/">See it in action <Icon name="arrow" size={15}/></a>
+      <button className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} type="button"><span/><span/></button>
+    </header>
     <section className="hero section-shell" id="top"><div className="hero-glow glow-one"/><div className="hero-glow glow-two"/><div className="hero-copy"><div className="eyebrow"><span/> Figma-to-production visual QA</div><h1>Ship every page closer to the <em>approved design.</em></h1><p>Design to QA compares Figma with your live build, catches visual drift, and turns every mismatch into clear, actionable evidence—before the client review.</p><div className="hero-actions"><a className="button primary" href="#demo">Explore the workflow <Icon name="arrow"/></a><a className="button secondary" href="#features"><Icon name="layers"/> See every feature</a></div><div className="hero-proof"><span><Icon name="check" size={15}/> No manual pixel hunt</span><span><Icon name="check" size={15}/> Clear severity ranking</span><span><Icon name="check" size={15}/> Shareable reports</span></div></div><ProductMockup/></section>
     <section className="metrics-strip section-shell" aria-label="Example audit outputs"><div className="metric-intro"><span>Example audit</span><strong>From uncertainty to a measurable QA baseline.</strong></div><div className="metric"><strong>71%</strong><span>Design match</span></div><div className="metric"><strong>101</strong><span>Issues surfaced</span></div><div className="metric"><strong>20</strong><span>Critical failures</span></div><div className="metric"><strong>29.2s</strong><span>Audit completed</span></div></section>
     <section className="problem-section section-shell" id="outcomes"><div className="section-heading split-heading"><div><span className="section-label">The hidden cost of visual drift</span><h2>Client review should not be your first QA pass.</h2></div><p>Small implementation differences create large delivery costs: repeated feedback, slower approvals, and avoidable tension between design and development.</p></div><div className="problem-grid"><article><span className="problem-number">01</span><h3>Manual review is slow</h3><p>Side-by-side checking turns skilled designers and developers into pixel detectives.</p><div className="problem-tag">Hours of repetitive work</div></article><article><span className="problem-number">02</span><h3>Feedback arrives too late</h3><p>Layout and typography problems surface during stakeholder review instead of development.</p><div className="problem-tag">More revision cycles</div></article><article className="solution-card"><span className="problem-number">03</span><h3>Design to QA creates alignment</h3><p>One visual workspace gives every team the same prioritized, measurable source of truth.</p><div className="problem-tag"><Icon name="spark" size={15}/> Faster, calmer handoff</div></article></div></section>
